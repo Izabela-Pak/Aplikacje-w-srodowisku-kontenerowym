@@ -93,5 +93,31 @@ Removing a container:
 # Exercise 2
 ## Changing images
 
-For this excercise we're pulling ubuntu 16.04 image
+Pulling ubuntu 16.04 image:
+
+![EX2-1](./screenshots/ex2-01.png)
+
+Starting a container and trying command "ping":
+
+![EX2-2](./screenshots/ex2-02.png)
+
+Updating list of available software:
+
+![EX2-3](./screenshots/ex2-03.png)
+
+Installing "ping" command:
+
+![EX2-4](./screenshots/ex2-04.png)
+
+Finally using "ping":
+
+![EX2-5](./screenshots/ex2-05.png)
+
+Committing a container state as a new image:
+
+![EX2-6](./screenshots/ex2-06.png)
+
+Trying new image:
+
+![EX2-7](./screenshots/ex2-07.png)
 
