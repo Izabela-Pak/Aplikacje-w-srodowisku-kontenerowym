@@ -121,3 +121,18 @@ Trying new image:
 
 # Exercise 3
 ## Building images
+
+Building an image from Dockerfile:
+
+![EX3-01](./screenshots/ex3-01.png)
+
+Optimizing the Dockerfile:
+
+![EX3-02](./screenshots/ex3-02.png)
+
+Trying other Dockerfile directives:
+
+![EX3-03](./screenshots/ex3-03.png)
+
+# Exercise 4
+## Sharing images
