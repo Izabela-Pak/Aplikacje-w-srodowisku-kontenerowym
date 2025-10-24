@@ -1,4 +1,5 @@
 # Exercise 1
+## Running Containers
 Showing running containers with command "docker images":
 
 ![EX1-01](./screenshots/ex1-01.png)
@@ -50,3 +51,47 @@ Running "docker run ubuntu:22.04 /bin/bash":
 Then showing all containers:
 
 ![EX1-13](./screenshots/ex1-13.png)
+
+Entering a bash session in ubuntu container:
+
+![EX1-14](./screenshots/ex1-14.png)
+
+Looking at the file system with Linux commands:
+
+![EX1-15](./screenshots/ex1-15.png)
+
+Running "/bin/sleep 3600" in detached mode:
+
+![EX1-16](./screenshots/ex1-16.png)
+
+Checking the container:
+
+![EX1-17](./screenshots/ex1-17.png)
+
+Using docker exec, rather than docker run.The ID is different from the previous image due to the container being restarted:
+
+![EX1-18](./screenshots/ex1-18.png)
+
+Listing the running processes:
+
+![EX1-19](./screenshots/ex1-19.png)
+
+Container is still running, even after exit:
+
+![EX1-20](./screenshots/ex1-20.png)
+
+Stoping a container and seeing results:
+
+![EX1-21](./screenshots/ex1-21.png)
+
+Showing all containers:
+
+![EX1-22](./screenshots/ex1-22.png)
+
+Removing a container:
+
+# Exercise 2
+## Changing images
+
+For this excercise we're pulling ubuntu 16.04 image
+
