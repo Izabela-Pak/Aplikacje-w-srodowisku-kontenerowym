@@ -88,8 +88,6 @@ Showing all containers:
 
 ![EX1-22](./screenshots/ex1-22.png)
 
-Removing a container:
-
 # Exercise 2
 ## Changing images
 
@@ -121,3 +119,5 @@ Trying new image:
 
 ![EX2-7](./screenshots/ex2-07.png)
 
+# Exercise 3
+## Building images
