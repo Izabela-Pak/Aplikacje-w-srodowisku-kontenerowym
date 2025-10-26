@@ -145,3 +145,15 @@ Login into DockerHub:
 
 Finding new images with command "docker search":
 
+![EX4-03](./screenshots/ex4-03.png)
+
+Pushing image:
+
+![EX4-04](./screenshots/ex4-04.png)
+
+![EX4-05](./screenshots/ex4-05.png)
+
+
+
+
+
