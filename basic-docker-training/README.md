@@ -153,7 +153,33 @@ Pushing image:
 
 ![EX4-05](./screenshots/ex4-05.png)
 
+# Exercise 5
+## Volumes
 
+Setting up the server and run it:
+
+![EX5-01](./screenshots/ex5-01.png)
+
+Replacing the default index.html file:
+
+![EX5-02](./screenshots/ex5-02.png)
+
+Getting back to default index.html, after closing server:
+
+![EX5-03](./screenshots/ex5-03.png)
+
+Listing, creating and removing volume:
+
+![EX5-04](./screenshots/ex5-04.png)
+
+Mounting volumes on containers:
+
+![EX5-05](./screenshots/ex5-05.png)
+
+![EX5-06](./screenshots/ex5-06.png)
+
+# Exercise 6
+## Networking
 
 
 
