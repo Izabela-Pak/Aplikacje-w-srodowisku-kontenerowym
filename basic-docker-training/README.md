@@ -181,5 +181,36 @@ Mounting volumes on containers:
 # Exercise 6
 ## Networking
 
+Listing networks:
 
+![EX6-01](./screenshots/ex6-01.png)
 
+Inspecting the bridge network:
+
+![EX6-02](./screenshots/ex6-02.png)
+
+Adding container to default network:
+
+![EX6-03](./screenshots/ex6-03.png)
+
+![EX6-04](./screenshots/ex6-04.png)
+
+Adding another ping container, and set it to ping first container:
+
+![EX6-05](./screenshots/ex6-05.png)
+
+Creating a new network:
+
+![EX6-06](./screenshots/ex6-06.png)
+
+Adding containers to a network:
+
+![EX6-07](./screenshots/ex6-07.png)
+
+Starting two databases and adding them to the network:
+
+![EX6-08](./screenshots/ex6-08.png)
+
+Starting a shell session in the widgetdb and then connecting to the local database:
+
+![EX6-09](./screenshots/ex6-09.png)
