@@ -136,3 +136,12 @@ Trying other Dockerfile directives:
 
 # Exercise 4
 ## Sharing images
+
+Login into DockerHub:
+
+![EX4-01](./screenshots/ex4-01.png)
+
+![EX4-02](./screenshots/ex4-02.png)
+
+Finding new images with command "docker search":
+
