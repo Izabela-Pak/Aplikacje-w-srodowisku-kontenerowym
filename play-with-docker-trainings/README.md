@@ -14,6 +14,7 @@
 
 ### [Security](Stage2/Security/)
 
-[Linux Kernel Capabilities and Docker](Stage2/Security/Linux-Kernel-Capabilities-and-Docker/)
+#### [Linux Kernel Capabilities and Docker](Stage2/Security/Linux-Kernel-Capabilities-and-Docker/)
 
-[Seccomp profiles](Stage2/Security/Seccomp-profiles/)
+#### [Seccomp profiles](Stage2/Security/Seccomp-profiles/)
+
