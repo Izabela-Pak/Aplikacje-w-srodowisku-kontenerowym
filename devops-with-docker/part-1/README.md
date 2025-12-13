@@ -114,3 +114,176 @@ CMD ["server"]
 
 # Section 4
 
+Uruchomienie kontenera, zainstalowanie odpowiednich zależności
+
+![s4-1](s4-1.png)
+
+Na tej podstawie napisano Dockerfile
+
+```
+FROM ubuntu:22.04
+
+WORKDIR /mydir
+
+RUN apt-get update && apt-get install -y curl python3
+RUN curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp
+RUN chmod a+x /usr/local/bin/yt-dlp
+
+CMD ["/usr/local/bin/yt-dlp"]
+```
+
+Zbudowanie obrazu i uruchomienie go
+
+![s4-2](s4-2.png)
+
+Aby dobrze działał należało zmienić CMD na ENTRYPOINT w Dockerfile
+
+```
+FROM ubuntu:22.04
+
+WORKDIR /mydir
+
+RUN apt-get update && apt-get install -y curl python3
+RUN curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp
+RUN chmod a+x /usr/local/bin/yt-dlp
+
+# Replacing CMD with ENTRYPOINT
+ENTRYPOINT ["/usr/local/bin/yt-dlp"]
+```
+
+Teraz obraz działa poprawnie
+
+![4-3](s4-3.png)
+
+Ponownie edytowano Dockerfile
+
+```
+FROM ubuntu:22.04
+
+WORKDIR /mydir
+
+RUN apt-get update && apt-get install -y curl python3
+RUN curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp
+RUN chmod a+x /usr/local/bin/yt-dlp
+
+ENTRYPOINT ["/usr/local/bin/yt-dlp"]
+
+# define a default argument
+CMD ["https://www.youtube.com/watch?v=Aa55RKWZxxI"]
+```
+
+Teraz obraz się odpala bez podania argumentów, jak i z podaniem ich
+
+![s4-4](s4-4.png)
+
+Dzięki ENTRYPOINT ulepszono curler z poprzedniej sekcji
+
+script.sh:
+```
+#!/bin/sh
+
+  echo "Searching..";
+  sleep 1;
+  curl http://$1;
+```
+
+Dockerfile:
+```
+FROM ubuntu:22.04
+
+WORKDIR /usr/src/app
+
+RUN apt-get update \
+    && apt-get install -y curl \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY script.sh .
+
+RUN chmod +x script.sh
+
+ENTRYPOINT ["./script.sh"]
+```
+
+![s4-5](s4-5.png)
+
+# Section 5
+
+Uruchomienie kontenera z bind mount tak, aby logi były tworzone w osobistym systemie plików.
+
+![s5-1](s5-1.png)
+
+Uruchomienie servera na porcie 8080
+
+![s5-2](s5-2.png)
+
+![s5-3](s5-3.png)
+
+# Section 6
+
+Sklonowanie repozytorium 
+
+![s6-1](s6-1.png)
+
+Zbudowanie obrazu i uruchomienie go na porcie 3000
+
+![s6-2](s6-2.png)
+
+Plik dockerfile do tego przykładu
+```
+# Wersja Ruby
+FROM ruby:3.1.0
+
+# Port Rails
+EXPOSE 3000
+
+# Katalog roboczy w kontenerze
+WORKDIR /usr/src/app
+
+# Zainstaluj bundler
+RUN gem install bundler:2.3.3
+
+# Kopiuj Gemfile i Gemfile.lock, aby zainstalować zależności
+COPY Gemfile* ./
+
+# Instalacja zależności
+RUN bundle install
+
+# Kopiuj cały kod źródłowy
+COPY . .
+
+# Migracje bazy danych i prekompilacja assetów
+RUN rails db:migrate RAILS_ENV=production
+RUN rake assets:precompile
+
+# Uruchomienie aplikacji
+CMD ["rails", "s", "-e", "production"]
+```
+
+## Ćwiczenie 1.11
+
+Dockerfile:
+
+```
+FROM amazoncorretto:11
+
+EXPOSE 8080
+
+WORKDIR /usr/src/app
+
+# Kopiujemy cały projekt
+COPY . .
+
+# Install dos2unix and fix line endings
+RUN yum install -y dos2unix \
+    && dos2unix mvnw \
+    && chmod +x mvnw
+
+# Budujemy aplikację
+RUN ./mvnw clean package -DskipTests
+
+CMD ["java", "-jar", "target/spring-example-project-0.0.1-SNAPSHOT.jar"]
+
+```
+
+
+
