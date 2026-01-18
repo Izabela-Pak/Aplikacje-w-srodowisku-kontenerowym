@@ -3,20 +3,17 @@ package com.izabela.backend.controllers;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.izabela.backend.dtos.LoginResponse;
 import com.izabela.backend.dtos.LoginUserRequest;
 import com.izabela.backend.dtos.RegisterUserRequest;
 import com.izabela.backend.dtos.UserInformation;
 import com.izabela.backend.dtos.VerifyUserRequest;
-import com.izabela.backend.responses.LoginResponse;
-import com.izabela.backend.service.AuthenticationService;
-import com.izabela.backend.service.JwtService;
 
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,9 +21,10 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.izabela.backend.entities.User;
 import com.izabela.backend.repositories.UserRepository;
+import com.izabela.backend.services.AuthenticationService;
+import com.izabela.backend.services.JwtService;
 
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "http://localhost:3010")
 @RestController
 public class AuthenticationController {
     private final UserRepository userRepository;
@@ -41,6 +39,10 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public User register(@RequestBody RegisterUserRequest registerUserRequest){
+        if (userRepository.existsByEmail(registerUserRequest.getEmail())) {
+        throw new IllegalStateException("Użytkownik o podanym adresie email już istnieje");
+    }
+
         User registerUser = authenticationService.register(registerUserRequest);
         registerUser.setUserRole();
         return userRepository.save(registerUser);
@@ -96,8 +98,16 @@ public class AuthenticationController {
 
     @GetMapping("/validate")
     public ResponseEntity<Map<String, Object>> validateToken(
-        @RequestHeader(value = "Authorization", required = false) String authorizationHeader
+        @RequestHeader("Authorization") String authorizationHeader
     ){
+
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("ok", false);
+            response.put("username", null);
+            return ResponseEntity.ok(response);
+        }
+
         String token = authorizationHeader.replace("Bearer ", ""); 
         String username = jwtService.extractUsername(token);
         UserDetails userDetails = userRepository.findByEmailIgnoreCase(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
@@ -122,7 +132,5 @@ public class AuthenticationController {
         );
 
     }
-    
-
 
 }

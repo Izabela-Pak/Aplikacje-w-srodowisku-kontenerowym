@@ -1,13 +1,16 @@
 package com.izabela.backend.dtos;
 
-import lombok.Data;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Getter
+@Setter
 public class LoginResponse {
     private String token;
-    private long expirationTime;
+    private long expiresIn;
+    
+    public LoginResponse(String token, long expiresIn){
+        this.token = token;
+        this.expiresIn = expiresIn;
+    }
 }

@@ -1,4 +1,4 @@
-package com.izabela.backend.service;
+package com.izabela.backend.services;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;

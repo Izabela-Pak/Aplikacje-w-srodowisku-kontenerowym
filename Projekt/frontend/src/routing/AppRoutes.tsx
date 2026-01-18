@@ -1,10 +1,9 @@
 import React from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
-import UserLayout from "../user/components/UserLayout";
+import UserLayout from "../user/pages/UserLayout";
 import CollectionPage from "../collection/pages/CollectionPage";
 import { useAuth } from "../context/AuthContext";
-import ModifyCD from "../collection/components/ModifyCd";
-import CreateCD from "../collection/components/CreateCd";
+import EditingPage from "../collection/pages/EditingPage";
 
 interface ModifyLocationState {
     fromCollection: boolean;
@@ -20,7 +19,7 @@ const ProtectedModifyRoute = () => {
         return <Navigate to="/collection" replace />;
     }
 
-    return <ModifyCD editingCD={state.editingCD} email={state.email} />;
+    return <EditingPage editingCD={state.editingCD} />;
 };
 
 const AppRoutes: React.FC = () => {
@@ -29,11 +28,19 @@ const AppRoutes: React.FC = () => {
     return(
         <Routes>
             <Route 
+                path="/" 
+                element={
+                    isAuthenticated ? <Navigate to="/collection" replace /> : <Navigate to="/login" replace />
+                } 
+            />
+
+            <Route 
                 path="/login" 
                 element={
                     isAuthenticated ? <Navigate to="/collection" replace /> : <UserLayout />
                 } 
-                />
+            />
+            
             <Route
                 path="/collection"
                 element={
@@ -44,15 +51,8 @@ const AppRoutes: React.FC = () => {
             <Route
                 path="/create"
                 element={
-                isAuthenticated ? <CreateCD /> : <Navigate to="/login" replace />
+                isAuthenticated ? <EditingPage /> : <Navigate to="/login" replace />
                 }
-            />
-
-            <Route 
-                path="/" 
-                element={
-                    isAuthenticated ? <Navigate to="/collection" replace /> : <Navigate to="/login" replace />
-                } 
             />
 
             <Route path="/modify" element={<ProtectedModifyRoute />} />

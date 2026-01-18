@@ -1,9 +1,11 @@
 package com.izabela.backend.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
+import com.izabela.backend.entities.types.Genre;
+import com.izabela.backend.entities.types.MediaType;
 import jakarta.persistence.*;
 import lombok.*;
+
 
 @Entity
 @Table(name = "collection")
@@ -20,6 +22,13 @@ public class CD {
     private String year;
     @Column(length = 2048)
     private String image_link;
+    @Enumerated(EnumType.STRING)
+    private Genre genre_required;
+    @Enumerated(EnumType.STRING)
+    private Genre genre_optional;
+    @Enumerated(EnumType.STRING)
+    private MediaType vinyl_or_cd;
+
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -34,5 +43,6 @@ public class CD {
     public void setImageLink(String image_link) { 
         this.image_link = image_link; 
     }
+    
 
 }

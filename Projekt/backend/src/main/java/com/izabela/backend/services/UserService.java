@@ -1,4 +1,4 @@
-package com.izabela.backend.service;
+package com.izabela.backend.services;
 
 import java.util.ArrayList;
 import java.util.List;

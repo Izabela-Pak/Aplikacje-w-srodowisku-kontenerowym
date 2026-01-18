@@ -21,10 +21,24 @@
     /*#F2A97E; */
 }
 
-.link-to-create-cd:hover {
+.link-to-create-cd:hover,
+.icon-to-logout:hover {
     color: #572700ff;
 }
 
-.link-to-create-cd{
+.link-to-create-cd,
+.icon-to-logout{
     color:white;
+}
+
+/* wspólna wysokość */
+.uniform-h {
+  height: 2.7rem;
+}
+
+/* na większych ekranach */
+@media (min-width: 768px) {
+  .uniform-h {
+    height: 3.0rem;
+  }
 }

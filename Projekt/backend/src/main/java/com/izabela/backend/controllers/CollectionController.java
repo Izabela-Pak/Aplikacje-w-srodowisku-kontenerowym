@@ -9,8 +9,11 @@ import com.izabela.backend.dtos.CDResponse;
 import com.izabela.backend.entities.CD;
 import com.izabela.backend.repositories.CDRepository;
 import com.izabela.backend.repositories.UserRepository;
-import com.izabela.backend.service.StorageService;
+import com.izabela.backend.services.StorageService;
 import com.izabela.backend.entities.User;
+import com.izabela.backend.entities.types.Genre;
+import com.izabela.backend.entities.types.MediaType;
+
 
 @RestController
 @RequestMapping("/api")
@@ -37,7 +40,10 @@ public class CollectionController {
             cd.getTitle(),
             cd.getAuthor(),
             cd.getYear(),
-            cd.getImage_link()
+            cd.getImage_link(),
+            cd.getGenre_required(),
+            cd.getGenre_optional(),
+            cd.getVinyl_or_cd()
         ))
         .toList();
     }
@@ -51,17 +57,26 @@ public class CollectionController {
             cd.getTitle(),
             cd.getAuthor(),
             cd.getYear(),
-            cd.getImage_link()
+            cd.getImage_link(),
+            cd.getGenre_required(),
+            cd.getGenre_optional(),
+            cd.getVinyl_or_cd()
         );
     }
 
-    @PostMapping
-    public CDResponse createProduct(@RequestParam String title, @RequestParam String author, @RequestParam String year, @RequestParam String email  , @RequestPart(value = "file", required = false) MultipartFile file) throws Exception {
+       @PostMapping("/create")
+    public CDResponse createProduct(@RequestParam String title, @RequestParam String author, @RequestParam String year, @RequestParam String email  , @RequestPart(value = "image", required = false) MultipartFile file, @RequestParam(required = false) String genre_optional, @RequestParam String genre_required, @RequestParam String cd_type) throws Exception {
         
         CD cd = new CD();
         cd.setTitle(title);
         cd.setAuthor(author);
         cd.setYear(year);
+        if(genre_optional!=null && !genre_optional.isEmpty()){
+            cd.setGenre_optional(Genre.fromDisplayName(genre_optional));
+        }
+        
+        cd.setGenre_required(Genre.fromDisplayName(genre_required));
+        cd.setVinyl_or_cd(MediaType.fromDisplayName(cd_type));
         User user = userRepository.findByEmailIgnoreCase(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         cd.setUser(user);
@@ -79,7 +94,10 @@ public class CollectionController {
             saved.getTitle(),
             saved.getAuthor(),
             saved.getYear(),
-            saved.getImageLink()
+            saved.getImageLink(),
+            saved.getGenre_optional(),
+            saved.getGenre_required(),
+            saved.getVinyl_or_cd()
         );
         
     }
@@ -95,7 +113,7 @@ public class CollectionController {
     }
 
     @PutMapping("/modify/{id}")
-    public ResponseEntity<CDResponse> modifyAlbum(@PathVariable int id, @RequestParam String title, @RequestParam String author, @RequestParam String year, @RequestParam String email  , @RequestPart(value = "image", required = false) MultipartFile image) throws Exception {
+    public ResponseEntity<CDResponse> modifyAlbum(@PathVariable int id, @RequestPart String title, @RequestPart String author, @RequestPart String year, @RequestPart String email  , @RequestPart(value = "image", required = false) MultipartFile image, @RequestPart(required = false) String genre_optional, @RequestPart String genre_required, @RequestPart String cd_type) throws Exception {
         User user = userRepository.findByEmailIgnoreCase(email).orElseThrow(() -> new RuntimeException("User not found"));
         return cdRepository.findById(id)
                 .map(existingAlbum -> {
@@ -103,6 +121,11 @@ public class CollectionController {
                     existingAlbum.setAuthor(author);
                     existingAlbum.setYear(year);
                     existingAlbum.setUser(user);
+                    existingAlbum.setGenre_required(Genre.fromDisplayName(genre_required));
+                    if(genre_optional!=null && !genre_optional.isEmpty()){
+                        existingAlbum.setGenre_optional(Genre.fromDisplayName(genre_optional));
+                    }
+                    existingAlbum.setVinyl_or_cd(MediaType.fromDisplayName(cd_type));
 
                     if (image != null && !image.isEmpty()) {
                         try {
@@ -120,7 +143,10 @@ public class CollectionController {
                             saved.getTitle(),
                             saved.getAuthor(),
                             saved.getYear(),
-                            saved.getImageLink()
+                            saved.getImageLink(),
+                            saved.getGenre_required(),
+                            saved.getGenre_optional(),
+                            saved.getVinyl_or_cd()
                     );
 
                     return ResponseEntity.ok(response);

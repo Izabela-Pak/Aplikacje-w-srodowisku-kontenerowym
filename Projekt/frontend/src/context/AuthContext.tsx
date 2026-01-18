@@ -33,31 +33,42 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const verified = () => setIsRegistered(false);
     
     useEffect(() => {
-        //Sprawdzenie poprawności tokena przy starcie
         async function CheckAuth() {
-            try{
+            const token = localStorage.getItem("token");
+
+            if (!token) {
+                setIsAuthenticated(false);
+                setIsLoading(false);
+                return;
+            }
+
+            try {
                 const response = await userServices.validate();
                 const data = response.data;
 
                 setIsAuthenticated(true);
                 setUserEmail(data.username);
-                setUserRole(data.role)
-            }catch{
+                setUserRole(data.role);
+            } catch {
                 setIsAuthenticated(false);
                 setUserEmail(null);
                 setUserRole(null);
-            }finally{
+                localStorage.removeItem("token");
+            } finally {
                 setIsLoading(false);
             }
         }
+
         CheckAuth();
     }, []);
 
     //lokalnie ustawia stan zalogowania
-    const login = async (): Promise<void> => {
+    const login = async () => {
+        const token = localStorage.getItem("token");
+        if (!token) return;
+
         setIsAuthenticated(true);
-        setUserRole('USER');
-    }
+    };
 
     //Usuwa stan zalogowania i czyści token z lokalnej pamięci
     const logout = (): void => {

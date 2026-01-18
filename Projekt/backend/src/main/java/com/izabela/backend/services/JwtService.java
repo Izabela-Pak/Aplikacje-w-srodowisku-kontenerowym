@@ -1,4 +1,4 @@
-package com.izabela.backend.service;
+package com.izabela.backend.services;
 
 import java.security.Key;
 import java.util.Date;

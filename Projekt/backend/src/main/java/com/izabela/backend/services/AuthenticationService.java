@@ -1,4 +1,4 @@
-package com.izabela.backend.service;
+package com.izabela.backend.services;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -49,6 +49,7 @@ public class AuthenticationService {
 
         return user;
     }
+
     public User  authenticate(LoginUserRequest input){
         User user = userRepository.findByEmailIgnoreCase(input.getEmail())
             .orElseThrow(() -> new RuntimeException("Nie znaleziono użytkownika"));
@@ -119,6 +120,7 @@ public class AuthenticationService {
         try{
             emailService.sendVerificationEmail(user.getEmail(), subject, htmlMessage);
         }catch(MessagingException e){
+            System.err.println("Error sending email: " + e.getMessage());
             e.printStackTrace();
         }
     }
